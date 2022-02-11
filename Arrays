@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+/**********************************************************************/
+// ENGR-2350 Template Project
+// Name: Jennifer Canfield
+// RIN: 661992677
+// This is the base project for several activities and labs throughout
+// the course.  The outline provided below isn't necessarily *required*
+// by a C program; however, this format is required within ENGR-2350
+// to ease debugging/grading by the staff.
+/**********************************************************************/
+
+// We'll always add this include statement. This basically takes the
+// code contained within the "engr_2350_msp432.h" file and adds it here.
+//#include "engr2350_msp432.h"
+
+// Add function prototypes here, as needed.
+
+
+// Add global variables here, as needed.
+uint32_t array1[] = {1,2,3,4,5,6,7,8,9,10};
+uint32_t array2[15];
+uint32_t var[10][15];
+
+int main(void) /* Main Function */
+{
+    // Add local variables here, as needed.
+
+    // We always call the "SysInit()" first to set up the microcontroller
+    // for how we are going to use it.
+    //SysInit();
+
+    // Place initialization code (or run-once) code here
+
+    uint8_t l; //loop count variable
+    for(l=0;l<15;l++){ //loop through the indicies of the array
+        array2[l] = rand() % 20;
+    }
+    uint8_t k,j;  //row, column count variables
+    for(k=0;k<10;k++){ //each row
+        for(j=0;j<15;j++){ //each column
+            var[k][j] = array2[j]*array1[k]; //multiply values of array1 at i and array2 at j
+        }
+    }
+    // This portion prints one of the input arrays column header (horizontal)
+    printf("\n\n\t");   // Move down a couple lines and skip the first "column"
+    for(k=0;k<10;k++){
+        printf("\t%u",array1[k]); // Print each element in the array, one each column (tab)
+    }
+    printf("\r\n"); // move to the next line to print the table
+
+    // This portion prints the other input array as the row headers (vertical)
+    // and the multiplication table (2D array)
+    for(j=0;j<15;j++){
+        printf("\t%u",array2[j]); // Print the i-th element of the input array
+        for(k=0;k<10;k++){
+            printf("\t%u",var[k][j]); // print all the elements of the i-th row for the table
+        }
+        printf("\r\n"); // move to next line
+    }
+    while(1){
+        // Place code that runs continuously in here
+
+    }
+}
