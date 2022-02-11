@@ -1,0 +1,89 @@
+/**********************************************************************/
+// ENGR-2350 Template Project
+// Name: Jennifer Canfield
+// RIN: 661992677
+// This is the base project for several activities and labs throughout
+// the course.  The outline provided below isn't necessarily *required*
+// by a C program; however, this format is required within ENGR-2350
+// to ease debugging/grading by the staff.
+/**********************************************************************/
+
+// We'll always add this include statement. This basically takes the
+// code contained within the "engr_2350_msp432.h" file and adds it here.
+//#include "engr2350_msp432.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+// This is one implementation for creating a custom struct variable type named "homework_t"
+typedef struct _homework_t {
+    float average;      // The struct has a "field" for each value listed
+    float stdev;        // in the "Homework Gradebook" table.
+    uint8_t min;        // Note that the fields can be all different types
+    uint8_t max;
+    uint16_t subs;
+} homework_t;
+// Add function prototypes here, as needed.
+float remove_min_from_avg(homework_t *homework);
+
+// Add global variables here, as needed.
+    float average = 93.8; //homework 1 values lines 29-33
+    float stdev = 12.6;
+    uint8_t minhw = 15;
+    uint8_t maxhw = 99;
+    uint16_t subs = 20;
+    homework_t arrayhw[2]; //create array to store homework
+
+int main(void) /* Main Function */
+{
+    // Add local variables here, as needed.
+    homework_t homework;
+    homework.average = average;
+    homework.stdev = stdev;
+    homework.min = minhw;
+    homework.max = maxhw;
+    homework.subs = subs;
+    arrayhw[0].average = 94.3; //homework 0 in array values ==homework 2
+    arrayhw[0].stdev = 10.2;
+    arrayhw[0].min = 33;
+    arrayhw[0].max = 100;
+    arrayhw[0].subs = 30;
+    arrayhw[1].average = 85.3; //homework 1 in array values == homework 3
+    arrayhw[1].stdev = 11.2;
+    arrayhw[1].min = 35;
+    arrayhw[1].max = 98;
+    arrayhw[1].subs = 40;
+    
+    // We always call the "SysInit()" first to set up the microcontroller
+    // for how we are going to use it.
+    //SysInit();
+
+    // Place initialization code (or run-once) code here
+    
+    homework.average = remove_min_from_avg(&homework);
+    printf("Homework 1 Stats\r\n"
+       "    Average: %.2f\r\n"
+       "  Std. Dev.: %.2f\r\n"
+       "    Minimum: %u\r\n"
+       "    Maximum: %u\r\n"
+       "Submissions: %u\r\n",
+       homework.average, homework.stdev, homework.min,
+       homework.max, homework.subs);
+    uint8_t i;
+    for (i=0; i<2; i++){
+        printf("Homework %u Stats, Average: %.2f, Std. Dev.: %.2f, Minimum: %u, Maximum: %u, Submissions: %u\r\n",
+        i+2, arrayhw[i].average, arrayhw[i].stdev, arrayhw[i].min, arrayhw[i].max, arrayhw[i].subs);
+    }
+    while(1){
+        // Place code that runs continuously in here
+
+    }
+}
+
+// Add function declarations here as needed
+float remove_min_from_avg(homework_t *homework){
+    float homework_sum = homework->average*homework->subs;
+    homework_sum -= homework->min;
+    return homework_sum/(homework->subs-1);
+}
+
+// Add interrupt functions last so they are easy to find
